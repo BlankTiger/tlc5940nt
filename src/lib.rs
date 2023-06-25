@@ -1,6 +1,35 @@
 #![no_std]
 
-use gpio::{GpioOut, GpioValue};
+/// Supports sending `GPIOValue`s
+pub trait GpioOut {
+    /// Errors that can occur during initialization of or writing to GPIO
+    type Error;
+
+    /// Sets the output value of the GPIO port
+    #[inline(always)]
+    fn set_value<T: Into<GpioValue> + Copy>(&mut self, value: T) -> Result<(), Self::Error> {
+        match value.into() {
+            GpioValue::High => self.set_high(),
+            GpioValue::Low => self.set_low(),
+        }
+    }
+
+    /// Set the GPIO port to a low output value directly
+    #[inline(always)]
+    fn set_low(&mut self) -> Result<(), Self::Error>;
+
+    /// Set the GPIO port to a high output value directly
+    #[inline(always)]
+    fn set_high(&mut self) -> Result<(), Self::Error>;
+}
+
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+pub enum GpioValue {
+    /// A low value, usually 0 V
+    Low,
+    /// A high value, commonly 3.3V or 5V
+    High,
+}
 
 trait GpioOutExt: GpioOut {
     fn pulse(&mut self) -> Result<(), Self::Error> {

@@ -6,4 +6,3 @@ description = "A driver for the TLC5940NT 16-channel LED driver"
 license = "MIT"
 
 [dependencies]
-gpio = "0.4.1"
