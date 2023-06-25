@@ -1,6 +1,6 @@
 [package]
 name = "tlc5940nt"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "A driver for the TLC5940NT 16-channel LED driver"
 license = "MIT"
